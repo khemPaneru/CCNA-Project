@@ -1,0 +1,20 @@
+! ============================
+! ACL for Public Web Server
+! Allows only HTTP & HTTPS
+! ============================
+
+! Allow HTTP (TCP 80) from any source to public IP
+access-list 100 permit tcp any host 203.0.113.10 eq 80
+
+! Allow HTTPS (TCP 443)
+access-list 100 permit tcp any host 203.0.113.10 eq 443
+
+! Deny any other traffic to the server
+access-list 100 deny ip any host 203.0.113.10
+
+! Allow all other traffic (recommended at end)
+access-list 100 permit ip any any
+
+! Apply ACL to outside interface inbound
+interface GigabitEthernet0/1
+ ip access-group 100 in
